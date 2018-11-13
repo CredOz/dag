@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+    >
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="2dip"
+    android:paddingBottom="2dip"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:mode="oneLine"
+    >
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="33dp"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/due_date"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="ID"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.033"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.065" />
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="68dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/id"
+            android:layout_toStartOf="@+id/id"
+            android:text="Order No"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.592"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.065" />
+
+        <TextView
+            android:id="@+id/due_date"
+            android:layout_width="62dp"
+            android:layout_height="match_parent"
+            android:layout_alignBaseline="@+id/type"
+            android:layout_alignBottom="@+id/type"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="date"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.065" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:text="Product"
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/notes"
+            android:layout_width="146dp"
+            android:layout_height="match_parent"
+            android:text="Notes"
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
+
+    </TableRow>
+
+</TableLayout>
+<ListView
+    android:id="@+id/contentlist"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"/>
+</LinearLayout>

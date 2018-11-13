@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/sales_view"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Sales" />
+        <item
+            android:id="@+id/order_view"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Orders" />
+        <item
+            android:id="@+id/stock_view"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Stock" />
+        <item
+            android:id="@+id/delivery_view"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Delivery Tracking" />
+        <item
+            android:id="@+id/expenses_view"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Expenses" />
+        <item
+            android:id="@+id/todo_view"
+            android:icon="@drawable/ic_menu_send"
+            android:title="To Do List" />
+        <item
+            android:id="@+id/maintainance_view"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Maintenance" />
+    </group>
+
+</menu>

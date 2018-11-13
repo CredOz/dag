@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.credoxyz.retailshop">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SalesActivity"
+            android:label="Sales" />
+        <activity
+            android:name=".DeliveryActivity"
+            android:label="Delivery Tracking" />
+        <activity
+            android:name=".ExpensesActivity"
+            android:label="Expenses" />
+        <activity
+            android:name=".MaintenanceActivity"
+            android:label="Maintenance" />
+        <activity android:name=".MaintenanceViewActivity" />
+        <activity android:name=".SalesViewActivity" />
+        <activity android:name=".ExpensesViewActivity" />
+        <activity android:name=".DeliveryViewActivity" />
+        <activity
+            android:name=".OrderActivity"
+            android:label="Orders" />
+        <activity
+            android:name=".StockActivity"
+            android:label="Stock" />
+        <activity
+            android:name=".ToDoActivity"
+            android:label="ToDo" />
+        <activity
+            android:name=".SalesNewActivity"
+            android:label="Sales" />
+        <activity
+            android:name=".OrderNewActivity"
+            android:label="Orders" />
+        <activity
+            android:name=".DeliveryNewActivity"
+            android:label="Delivery" />
+        <activity
+            android:name=".ExpensesNewActivity"
+            android:label="Expenses" />
+        <activity
+            android:name=".MaintenanceNewActivity"
+            android:label="Maintenance" />
+        <activity
+            android:name=".OrderConfirmActivity"
+            android:label="Order Confirmation" />
+        <activity android:name=".OrderViewActivity" />
+        <activity
+            android:name=".SalesConfirmActivity"
+            android:label="Sale Confirmation" />
+        <activity android:name=".OrderEditActivity"></activity>
+        <activity android:name=".SalesEditActivity"></activity>
+    </application>
+
+</manifest>

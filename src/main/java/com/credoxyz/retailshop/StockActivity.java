@@ -1,0 +1,254 @@
+package com.credoxyz.retailshop;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class StockActivity extends AppCompatActivity {
+    TableLayout t1;
+    private SQLiteAdapter mySQLiteAdapter;
+    @SuppressLint("ResourceType")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view);
+        t1 = (TableLayout) findViewById(R.id.main_table);
+
+        HashMap<Integer, Order> mapList = getOrderDetails();
+        try {
+            //Log.d("arr", mapList.get(1).payment.toString());
+            for (int i=0; i<mapList.size(); i++){
+                TableRow tr_head1 = new TableRow(this);       // part1
+                tr_head1.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                String ordrN = mapList.get(i).order;
+                HashMap<Integer, Payments> saleList = getSalePaymentDetails(ordrN);
+                Float total = 0.0f;
+                for (int k=0; k<saleList.size(); k++){
+                    total = total + Float.valueOf(saleList.get(k).payment);
+                }
+
+                total = total + Float.valueOf(mapList.get(i).payment);
+                total = Float.valueOf(mapList.get(i).price) - total;
+
+                TextView label_order = new TextView(this);
+                label_order.setText("Order #");         // part2
+                label_order.setPadding(5, 5, 5, 5);
+                tr_head1.addView(label_order);// add the column to the table row here
+
+                TextView label_model = new TextView(this);    // part3
+                label_model.setText("Model"); // set the text for the header
+                label_model.setPadding(5, 5, 5, 5); // set the padding (if required)
+                tr_head1.addView(label_model); // add the column to the table row here
+
+                TextView label_price = new TextView(this);    // part3
+                label_price.setText("Price"); // set the text for the header
+                label_price.setPadding(5, 5, 5, 5); // set the padding (if required)
+                tr_head1.addView(label_price); // add the column to the table row here
+                t1.addView(tr_head1, new TableLayout.LayoutParams(
+                        LinearLayout.LayoutParams.FILL_PARENT,                    //part4
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                TableRow tr_row1 = new TableRow(this);       // part1
+                tr_row1.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                TextView order = new TextView(this);
+                order.setText(mapList.get(i).order.toString());
+                order.setTextColor(Color.BLACK);// part2
+                order.setPadding(5, 5, 5, 5);
+                tr_row1.addView(order);// add the column to the table row here
+
+                TextView model = new TextView(this);    // part3
+                model.setText(mapList.get(i).product.toString()); // set the text for the header
+                model.setTextColor(Color.BLACK);
+                model.setPadding(5, 5, 5, 5); // set the padding (if required)
+                tr_row1.addView(model); // add the column to the table row here
+
+                TextView price = new TextView(this);    // part3
+                price.setText(mapList.get(i).price.toString()); // set the text for the header
+                price.setTextColor(Color.BLACK);
+                price.setPadding(5, 5, 5, 5); // set the padding (if required)
+                tr_row1.addView(price); // add the column to the table row here
+                t1.addView(tr_row1, new TableLayout.LayoutParams(
+                        LinearLayout.LayoutParams.FILL_PARENT,                    //part4
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                TableRow tr_head2 = new TableRow(this);    // part1
+                tr_head2.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                TextView label_payment = new TextView(this);
+                label_payment.setText("Payment");         // part2
+                label_payment.setPadding(5, 5, 5, 5);
+                tr_head2.addView(label_payment);// add the column to the table row here
+
+                TextView label_due = new TextView(this);    // part3
+                label_due.setText("Due Amount"); // set the text for the header
+                label_due.setPadding(5, 5, 5, 5); // set the padding (if required)
+                tr_head2.addView(label_due); // add the column to the table row here
+
+                TextView label_date = new TextView(this);    // part3
+                label_date.setText("Due Date"); // set the text for the header
+                label_date.setPadding(5, 5, 5, 5); // set the padding (if required)
+                tr_head2.addView(label_date); // add the column to the table row here
+                t1.addView(tr_head2, new TableLayout.LayoutParams(
+                        LinearLayout.LayoutParams.FILL_PARENT,                    //part4
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                TableRow tr_row2 = new TableRow(this);    // part1
+                tr_row2.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                TextView payment = new TextView(this);
+                payment.setText(mapList.get(i).payment.toString());         // part2
+                payment.setTextColor(Color.BLACK);
+                payment.setPadding(5, 5, 5, 5);
+                tr_row2.addView(payment);// add the column to the table row here
+
+                TextView due = new TextView(this);    // part3
+                due.setText(Float.toString(total)); // set the text for the header
+                due.setTextColor(Color.BLACK);
+                due.setPadding(5, 5, 5, 5); // set the padding (if required)
+                tr_row2.addView(due); // add the column to the table row here
+
+                TextView date = new TextView(this);    // part3
+                date.setText(mapList.get(i).date.toString()); // set the text for the header
+                date.setTextColor(Color.BLACK);
+                date.setPadding(5, 5, 5, 5); // set the padding (if required)
+                tr_row2.addView(date); // add the column to the table row here
+                t1.addView(tr_row2, new TableLayout.LayoutParams(
+                        LinearLayout.LayoutParams.FILL_PARENT,                    //part4
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                TableRow tr_head3 = new TableRow(this);
+                tr_head3.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                TextView label_customer = new TextView(this);
+                label_customer.setText("Customer");         // part2
+                label_customer.setPadding(5, 5, 5, 5);
+                tr_head3.addView(label_customer);// add the column to the table row here
+
+                TextView label_retailShop = new TextView(this);    // part3
+                label_retailShop.setText("Retail Shop"); // set the text for the header
+                label_retailShop.setPadding(5, 5, 5, 5); // set the padding (if required)
+                tr_head3.addView(label_retailShop); // add the column to the table row here
+
+                TextView label_orderState = new TextView(this);    // part3
+                label_orderState.setText("Order State"); // set the text for the header
+                label_orderState.setPadding(5, 5, 5, 5); // set the padding (if required)
+                tr_head3.addView(label_orderState); // add the column to the table row here
+
+
+                t1.addView(tr_head3, new TableLayout.LayoutParams(
+                        LinearLayout.LayoutParams.FILL_PARENT,                    //part4
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+
+                TableRow tr_row3 = new TableRow(this);
+                tr_row3.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                TextView customer = new TextView(this);
+                customer.setText(mapList.get(i).customer.toString());         // part2
+                customer.setTextColor(Color.BLACK);
+                customer.setPadding(5, 5, 5, 5);
+                tr_row3.addView(customer);// add the column to the table row here
+
+                TextView retailShop = new TextView(this);    // part3
+                retailShop.setText(mapList.get(i).retailShop); // set the text for the header
+                retailShop.setTextColor(Color.BLACK);
+                retailShop.setPadding(5, 5, 5, 5); // set the padding (if required)
+                tr_row3.addView(retailShop); // add the column to the table row here
+
+                TextView orderState = new TextView(this);    // part3
+                orderState.setText(mapList.get(i).orderState); // set the text for the header
+                orderState.setTextColor(Color.BLACK);
+                orderState.setPadding(5, 5, 5, 5); // set the padding (if required)
+                tr_row3.addView(orderState); // add the column to the table row here
+
+
+                t1.addView(tr_row3, new TableLayout.LayoutParams(
+                        LinearLayout.LayoutParams.FILL_PARENT,                    //part4
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                TableRow space = new TableRow(this);
+                space.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                space.setBackgroundColor(Color.GRAY);
+                TextView spaceText = new TextView(this);    // part3
+                spaceText.setPadding(5, 5, 5, 5); // set the padding (if required)
+                space.addView(spaceText); // add the column to the table row here
+                t1.addView(space, new TableLayout.LayoutParams(
+                        LinearLayout.LayoutParams.FILL_PARENT,                    //part4
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+            }
+        } catch (Exception e){
+
+        }
+    }
+
+    public HashMap getOrderDetails(){
+        mySQLiteAdapter = new SQLiteAdapter(this);
+        mySQLiteAdapter.openToRead();
+        Cursor cursor = mySQLiteAdapter.queueOrdersAll();
+        cursor.moveToFirst();
+        HashMap<Integer, Order> list = new HashMap<>();
+        int i = 0;
+        while(!cursor.isAfterLast()) {
+            Order obj = new Order(cursor.getString(cursor.getColumnIndex("date")), cursor.getString(cursor.getColumnIndex("notes")),cursor.getString(cursor.getColumnIndex("orderNo")),
+                    cursor.getString(cursor.getColumnIndex("product")),cursor.getString(cursor.getColumnIndex("paymentType")),cursor.getString(cursor.getColumnIndex("payment")),
+                    cursor.getString(cursor.getColumnIndex("paymentMethod")),cursor.getString(cursor.getColumnIndex("price")),cursor.getString(cursor.getColumnIndex("fsNo")),
+                    cursor.getString(cursor.getColumnIndex("customer")),cursor.getString(cursor.getColumnIndex("customer2")),cursor.getString(cursor.getColumnIndex("phone")),cursor.getString(cursor.getColumnIndex("phone2")),
+                    cursor.getString(cursor.getColumnIndex("retailShop")),cursor.getString(cursor.getColumnIndex("orderState")));
+            list.put(i, obj);
+            i++;
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return list;
+    }
+
+    public HashMap getSalePaymentDetails(String orderNo){
+        mySQLiteAdapter = new SQLiteAdapter(this);
+        mySQLiteAdapter.openToRead();
+        Cursor cursor = mySQLiteAdapter.queueSalePayments(orderNo);
+        cursor.moveToFirst();
+        ArrayList<String> names = new ArrayList<String>();
+        HashMap<Integer, Payments> list = new HashMap<>();
+        int i = 0;
+        while(!cursor.isAfterLast()) {
+            Payments obj = new Payments(cursor.getString(cursor.getColumnIndex("_id")),cursor.getString(cursor.getColumnIndex("orderNo")), cursor.getString(cursor.getColumnIndex("payment")),cursor.getString(cursor.getColumnIndex("paymentType")),
+                    cursor.getString(cursor.getColumnIndex("paymentMethod")), cursor.getString(cursor.getColumnIndex("date")),cursor.getString(cursor.getColumnIndex("fsNo")),
+                    cursor.getString(cursor.getColumnIndex("notes")));
+            list.put(i, obj);
+            i++;
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return list;
+    }
+}
